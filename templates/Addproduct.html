@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="product-container">
+    <div class="product-box">
+        <h2>Add a Product</h2>
+        <form action="{{ url_for('Addproduct') }}" method="post" enctype="multipart/form-data">
+            <div class="form-group1">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" required><br>
+            </div>
+            <div class="form-group1">
+                <label for="price">Price:</label>
+                <input type="number" name="price" id="price" required><br>
+            </div>
+            <div class="form-group1">
+                <label for="description">Description:</label>
+                <textarea name="description" id="description"></textarea><br>
+            </div>
+            <div class="form-group1">
+                <label for="category">Category:</label>
+                <select name="category" id="category" required>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
+            <div class="form-group1">
+                <label for="file">Choose an image:</label>
+                <input type="file" name="file" id="file" accept="image/*" required><br>
+            </div>
+            <div class="form-group1">
+                <label for="is_hero_product">Display as Hero Product:</label>
+                <input type="checkbox" name="is_hero_product" id="is_hero_product"><br>
+            </div>
+            <input type="submit" value="Upload" class="product-btn btn-primary">
+        </form>
+        <a href="{{ url_for('index') }}">Back to Home</a>
+    </div>
+</div>
+{% endblock %}

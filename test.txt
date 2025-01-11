@@ -1,0 +1,6 @@
+coverage run -m pytest test_auth.py
+coverage report
+
+python -m pytest test_auth.py -v
+
+python -m unittest test_auth.py

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="products" style="height: 100vh;">
+    <h2>Products</h2>
+    <div class="product-slider" >
+        {% for product in products %}
+        <div class="product-card">
+            <img src="{{ url_for('static', filename='uploads/' + (product.file_path if product.file_path else 'default.jpg')) }}" alt="Uploaded Product">
+            <h3>{{ product.title }}</h3> <!-- You can customize this to show a proper title if you have one -->
+            <p class="price">{{ product.price }} FCFA</p> <!-- Placeholder price -->
+             <!-- Delete Button -->
+    <form action="{{ url_for('delete_product', product_id=product.id) }}" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    <form action="{{ url_for('product', product_id=product.id)}}">
+        <button class="btn btn-primary">Add to Cart</button>
+    </form>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

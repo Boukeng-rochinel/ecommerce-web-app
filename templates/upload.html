@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <label for="filename">Filename:</label>
+        <input type="text" name="filename" id="filename" required><br>
+        
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required><br>
+        
+        <label for="description">Description:</label>
+        <textarea name="description" id="description"></textarea><br>
+        
+        <label for="file">Choose an image:</label>
+        <input type="file" name="file" id="file" accept="image/*" required><br>
+        
+        <input type="submit" value="Upload">
+    </form>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>
+{% endblock %}

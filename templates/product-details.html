@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .product-title {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .price {
+            font-size: 20px;
+            color: #28a745;
+            margin: 10px 0;
+        }
+        .quantity {
+            margin: 10px 0;
+        }
+        .add-to-cart {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        .add-to-cart:hover {
+            background-color: #0056b3;
+        }
+        .success-message {
+            display: none;
+            margin-top: 10px;
+            color: #28a745;
+        }
+        .suggestions {
+            margin-top: 20px;
+        }
+        .suggestion-item {
+            border-top: 1px solid #eee;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ product.name }}</h1>
+    <p>Price: ${{ product.price }}</p>
+    <p>Description: {{ product.description }}</p>
+
+    <h3>You might also like:</h3>
+    <div class="suggestions">
+        {% if suggested_products %}
+            <ul>
+                {% for suggested_product in suggested_products %}
+                    <li>
+                        <a href="{{ url_for('product_detail', product_id=suggested_product.id) }}">
+                            {{ suggested_product.name }} - ${{ suggested_product.price }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No suggested products available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

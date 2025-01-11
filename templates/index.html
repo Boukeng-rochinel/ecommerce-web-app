@@ -1,0 +1,53 @@
+<!-- templates/home.html -->
+{% extends "base.html" %}
+{% block content %}
+<div class="hero-section">
+    <div class="hero-slider">
+        {% for slide in hero_products %}
+        <div class="slide">
+            <img src="{{ url_for('static', filename='uploads/' + (slide.file_path if slide.file_path else 'default.jpg')) }}" alt="{{ slide.title }}">
+            <div class="slide-content">
+                <h1 style="color: orange;">{{ slide.name }}</h1>
+                <p style="margin-top: 10px;">{{ slide.description }}</p>
+                <div class="spacer"  style="margin-top: 10px;"></div>
+                <a href="#" class="btn btn-primary">Shop Now</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<section class="featured-categories">
+    <h2>Featured Categories</h2>
+    <div class="category-grid">
+        {% for category in categories %}
+        <div class="category-card">
+            <img src="{{ url_for('static', filename='uploads/' + (category.file_path if category.file_path else 'default.jpg')) }}" alt="{{ category.name }}">
+            <h3>{{ category.name }}</h3>
+            <!-- Delete Button -->
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="trending-products">
+    <h2>Trending Products</h2>
+    <div class="product-slider">
+        {% for product in products %}
+        <div class="product-card">
+            <img src="{{ url_for('static', filename='uploads/' + (product.file_path if product.file_path else 'default.jpg')) }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p class="price">{{ product.price }} FCFA</p>
+            <!-- Delete Button -->
+            <form action="{{ url_for('delete_product', product_id=product.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+
+            <form action="{{ url_for('product', product_id=product.id)}}" method="GET"  style="display:inline;">
+                <button class="btn btn-primary">Add to Cart</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

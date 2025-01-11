@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="product-container">
+    <div class="product-box">
+        <h2>Add a Category</h2>
+        <form action="{{ url_for('Addcategory') }}" method="post" enctype="multipart/form-data">
+            <div class="form-group1">
+                <label for="name">Category Name:</label>
+                <input type="text" name="name" id="name" required><br>
+            </div>
+            <div class="form-group1">
+                <label for="description">Description:</label>
+                <textarea name="description" id="description" required></textarea><br>
+            </div>
+            <div class="form-group1">
+                <label for="file">Choose an image:</label>
+                <input type="file" name="file" id="file" accept="image/*" required><br>
+            </div>
+            <input type="submit" value="Add Category" class="product-btn btn-primary">
+        </form>
+        <a href="{{ url_for('index') }}">Back to Home</a>
+    </div>
+</div>
+{% endblock %}
