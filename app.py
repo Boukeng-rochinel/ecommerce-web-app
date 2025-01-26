@@ -59,6 +59,20 @@ def product():
     products = Product.query.all()
     return render_template('product.html', products = products)
 
+
+# Custom Jinja filter to truncate description
+@app.template_filter('truncate')
+def truncate(s, max_words=5):
+    words = s.split()
+    if len(words) > max_words:
+        return ' '.join(words[:max_words]) + '...'
+    return s
+
+@app.route('/Addcart')
+def Addcart():
+    products = Product.query.all()
+    return render_template('Addcart.html', products = products)
+
 @app.route('/category')
 def category():
     categories = Category.query.all()
@@ -228,6 +242,7 @@ def logout():
     flash('Logged out successfully')
     return redirect(url_for('index'))
 
+ 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

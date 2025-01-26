@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="product-details" style="height: 100vh;">
+   <div class="Pcontainer">
+    <div class="sidebar">
+        <h3>Filter Products</h3>
+        <form action="{{ url_for('product_detail', product_id=product.id) }}" method="GET">
+            <div class="form-group">
+                <label for="search">Search</label>
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search...">
+            </div>
+            <div class="form-group">
+                <label for="sort">Sort By</label>
+                <select id="sort" name="sort" class="form-control">
+                    <option value="name">Name</option>
+                    <option value="price">Price</option>
+                    <option value="genre">Genre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="price-range">Price Range</label>
+                <input type="range" id="price-range" name="price_range" min="0" max="1000" step="10" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+    </div>
+    <div class="container">
+        <div class="product-grid">
+            <div class="product-card1">
+                    <div class="info-pic">
+                        <img src="{{ url_for('static', filename='uploads/' + (product.file_path if product.file_path else 'default.jpg')) }}" alt="Uploaded Product" class="product-image">
+                        
+                    </div>
+                    <div class="info">
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <p class="prices">Price: <span style="color: #000; font-weight: bold;">{{ product.price }} FCFA</span></p>
+                        <p class="description">Description: {{ product.description }}</p>
+                        <form action="{{ url_for('Addcart', product_id=product.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </form>
+                    </div>
+            </div>
+        </div>
+
+        <h3>You might also like:</h3>
+        <div class="suggestions">
+            {% if suggested_products %}
+                <div class="product-grid">
+                    {% for suggested_product in suggested_products %}
+                    <div class="product-card">
+                        <div class="div-image">
+                            <img src="{{ url_for('static', filename='uploads/' + (suggested_product.file_path if suggested_product.file_path else 'default.jpg')) }}" alt="Suggested Product" class="product-image1">
+                        </div>
+                        <h3 class="product-title">{{ suggested_product.name }}</h3>
+                        <p class="prices">Price: <span style="color: #000; font-weight: bold;">{{ suggested_product.price }} FCFA</span></p>
+                        <p class="description">Description: {{ suggested_product.description | truncate(5) }}</p>
+                        <a href="{{ url_for('product_detail', product_id=suggested_product.id) }}" class="icon-link">
+                            <i class="fas fa-info-circle"></i> More...
+                        </a>
+                    </div>
+                    {% endfor %}
+            </div>
+                <p>No suggested products available.</p>
+            {% endif %}
+        </div>
+    </div>
+   </div>
+</section>
+
+<style>
+    .Pcontainer{
+        display: flex;
+    }
+
+    .sidebar{
+        flex: 1;
+    }
+
+    .container {
+        flex: 3;
+        width: 100%;
+        margin: auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        /* margin-bottom: 100px; */
+    }
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+        gap: 10px;
+    }
+
+    .info{
+        text-align: start;
+        flex: 1;
+        padding: 10px 10px 0 35px;
+    }
+
+    .info-pic{
+        text-align: start;
+        flex: 1;
+    }
+    .product-card1 {
+        background: rgb(252, 252, 252);
+        display: flex;
+        width: 1000px;
+        border-radius: 3px;
+        /* padding: 20px; */
+        text-align: center;
+        margin: 90px 0 0 20px;
+    }
+
+
+    .product-card {
+       width: 270px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        padding-left: 20px;
+    }
+    /* .product-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+    } */
+    .product-image {
+        width:  100%;
+        height: 160px;
+        border-radius: 2px;
+    }
+
+    .div-image{
+        width: 200px;
+        height: 140px;
+    }
+    .product-image1 {
+        max-width: 100%; /* Scale image to fit container */
+        max-height: 100%; /* Scale image to fit container */
+        object-fit: contain; 
+    }
+
+    .product-title {
+        font-size: 24px;
+        margin: 2px 0;
+    }
+    .prices {
+        font-size: 16px;
+        color: #555;
+        text-align:start;
+    }
+    .description {
+        font-size: 16px;
+        color: #555;
+        text-align: start;
+    }
+    .btn {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+    .btn-success:hover {
+        background-color: #218838;
+    }
+    .suggestions {
+        margin-top: 20px;
+    }
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .icon-link {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 16px;
+    }
+    .icon-link:hover {
+        text-decoration: underline;
+    }
+
+</style>
+{% endblock %}

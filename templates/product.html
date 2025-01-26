@@ -2,21 +2,104 @@
 {% block content %}
 <section class="products" style="height: 100vh;">
     <h2>Products</h2>
-    <div class="product-slider" >
+    <div class="product-grid">
         {% for product in products %}
         <div class="product-card">
-            <img src="{{ url_for('static', filename='uploads/' + (product.file_path if product.file_path else 'default.jpg')) }}" alt="Uploaded Product">
-            <h3>{{ product.title }}</h3> <!-- You can customize this to show a proper title if you have one -->
-            <p class="price">{{ product.price }} FCFA</p> <!-- Placeholder price -->
-             <!-- Delete Button -->
-    <form action="{{ url_for('delete_product', product_id=product.id) }}" method="POST" style="display:inline;">
-        <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
-    <form action="{{ url_for('product', product_id=product.id)}}">
-        <button class="btn btn-primary">Add to Cart</button>
-    </form>
+            <img src="{{ url_for('static', filename='uploads/' + (product.file_path if product.file_path else 'default.jpg')) }}" alt="Uploaded Product" class="product-image">
+            <h3 class="product-title">{{ product.name }}</h3>
+            <p class="prices">Price: <span style="color: #000; font-weight: bold;">{{ product.price }} FCFA</span></p>
+            <p class="description">Description: {{ product.description | truncate(5) }}</p>
+            <div class="actions">
+                <div>
+                    <form action="{{ url_for('delete_product', product_id=product.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="icon-button">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}" class="icon-link">
+                        <i class="fas fa-info-circle"></i> More...
+                    </a>
+                </div>
+                <form action="{{ url_for('Addcart', product_id=product.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                </form>
+            </div>
         </div>
         {% endfor %}
     </div>
 </section>
+
+<style>
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 10px;
+    }
+    .product-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+    }
+    .product-image {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+    .product-title {
+        font-size: 24px;
+        margin: 6px 0;
+    }
+    .prices {
+        font-size: 16px;
+        color: #555;
+        margin: 6px 0;
+        text-align:start;
+
+    }
+    .description {
+        font-size: 16px;
+        color: #555;
+        margin: 6px 0;
+        text-align:start;
+    }
+    .actions {
+        margin-top: 10px;
+    }
+    .icon-button {
+        background: none;
+        border: none;
+        color: #dc3545;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+    .icon-link {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 16px;
+    }
+    .icon-link:hover {
+        text-decoration: underline;
+    }
+    .btn {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+    .btn-success:hover {
+        background-color: #218838;
+    }
+</style>
 {% endblock %}
